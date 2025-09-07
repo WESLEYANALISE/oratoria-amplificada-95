@@ -168,7 +168,7 @@ const Index = () => {
             <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-8 sm:mb-12 animate-fade-in-up [animation-delay:0.6s] px-2 sm:px-4">
               <div className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl bg-card/10 backdrop-blur-sm border border-gold/20 hover-lift max-w-5xl mx-auto">
                 <CustomVideoPlayer
-                  src="/video-novo.mp4"
+                  src="/video-novo-atualizado.mp4"
                   onPlay={() => {
                     if (!hasPlayedVideo) {
                       localStorage.setItem('hero-video-played', 'true');
@@ -370,10 +370,10 @@ const Index = () => {
 
           {/* Call to Action */}
           <div className="text-center mt-8 sm:mt-12 animate-slide-in-bottom px-3">
-            <Button onClick={handlePurchase} className="cta-primary text-base sm:text-lg lg:text-xl px-6 sm:px-8 lg:px-12 py-4 sm:py-5 lg:py-6 rounded-xl sm:rounded-2xl animate-gold-pulse w-full sm:w-auto hover-scale">
-              <Crown className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mr-2 sm:mr-3" />
-              Quero Falar sem Medo
-              <Zap className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 ml-2 sm:ml-3" />
+            <Button onClick={handleScrollToPurchase} className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 text-black font-black text-base sm:text-lg lg:text-xl px-6 sm:px-8 lg:px-12 py-4 sm:py-5 lg:py-6 rounded-xl sm:rounded-2xl shadow-2xl shadow-yellow-500/50 animate-pulse hover:scale-105 transform transition-all duration-300 w-full sm:w-auto border-2 border-yellow-300">
+              <Crown className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mr-2 sm:mr-3 animate-bounce" />
+              🔥 QUERO FALAR SEM MEDO 🔥
+              <Zap className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 ml-2 sm:ml-3 animate-bounce" />
             </Button>
             <p className="text-xs sm:text-sm text-muted-foreground mt-3 sm:mt-4">
               ⚡ Acesso instantâneo após o pagamento
@@ -445,7 +445,8 @@ const Index = () => {
             <div className="mb-8 sm:mb-10">
               <div className="relative rounded-xl overflow-hidden shadow-2xl bg-card/10 backdrop-blur-sm border border-gold/20">
                 <CustomVideoPlayer
-                  src="https://www.dropbox.com/scl/fi/9e2ws85xky9lbh6wuiqfs/Biblioteca-de-Anuncios-3.mp4?rlkey=53m4lvxzu4k2rpiv2bdfvcamj&st=e9ym1e6i&dl=1"
+                  src="/video-oratoria.mp4"
+                  autoPlay={true}
                 />
               </div>
             </div>
