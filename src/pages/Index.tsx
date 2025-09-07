@@ -454,11 +454,11 @@ const Index = () => {
 
             <Button 
               onClick={() => window.open('https://pay.cakto.com.br/377wp2j_560310', '_blank')} 
-              className="cta-primary text-lg sm:text-xl md:text-2xl px-10 sm:px-12 md:px-16 py-6 sm:py-8 rounded-2xl shadow-gold animate-gold-pulse animate-heartbeat w-full sm:w-auto"
+              className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 text-black font-black text-lg sm:text-xl md:text-2xl px-10 sm:px-12 md:px-16 py-6 sm:py-8 rounded-2xl shadow-2xl shadow-yellow-500/50 animate-pulse hover:scale-105 transform transition-all duration-300 w-full sm:w-auto border-4 border-yellow-300 hover:border-yellow-400"
             >
-              <Crown className="w-6 h-6 sm:w-8 sm:h-8 mr-3 sm:mr-4 animate-wiggle" />
-              Quero o Kit 10 Livros
-              <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 ml-3 sm:ml-4 animate-bounce-slow" />
+              <Crown className="w-6 h-6 sm:w-8 sm:h-8 mr-3 sm:mr-4 animate-bounce text-black" />
+              🔥 QUERO O KIT 10 LIVROS 🔥
+              <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 ml-3 sm:ml-4 animate-bounce text-black" />
             </Button>
           </div>
         </div>
