@@ -8,16 +8,17 @@ interface CustomVideoPlayerProps {
   onPlay?: () => void;
   autoPlay?: boolean;
   playOnIntersect?: boolean;
+  showControls?: boolean;
 }
 
-const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, playOnIntersect = false }: CustomVideoPlayerProps) => {
+const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, playOnIntersect = false, showControls = true }: CustomVideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
-  const [showControls, setShowControls] = useState(true);
+  const [showVideoControls, setShowVideoControls] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -165,16 +166,18 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, play
   };
 
   const handleMouseMove = () => {
-    setShowControls(true);
-    
-    if (controlsTimeoutRef.current) {
-      clearTimeout(controlsTimeoutRef.current);
-    }
-    
-    if (isPlaying) {
-      controlsTimeoutRef.current = setTimeout(() => {
-        setShowControls(false);
-      }, 3000);
+    if (showControls) {
+      setShowVideoControls(true);
+      
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+      
+      if (isPlaying) {
+        controlsTimeoutRef.current = setTimeout(() => {
+          setShowVideoControls(false);
+        }, 3000);
+      }
     }
   };
 
@@ -183,7 +186,7 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, play
       ref={intersectionRef}
       className={`relative group ${className}`}
       onMouseMove={handleMouseMove}
-      onMouseLeave={() => isPlaying && setShowControls(false)}
+      onMouseLeave={() => isPlaying && showControls && setShowVideoControls(false)}
     >
       <video
         ref={videoRef}
@@ -217,66 +220,68 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, play
       )}
 
       {/* Custom Controls */}
-      <div 
-        className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 rounded-b-xl transition-opacity duration-300 ${
-          showControls ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        {/* Progress Bar */}
-        <div className="mb-3">
-          <div 
-            className="w-full h-2 bg-white/20 rounded-full cursor-pointer relative overflow-hidden"
-            onClick={handleProgressClick}
-          >
+      {showControls && (
+        <div 
+          className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 rounded-b-xl transition-opacity duration-300 ${
+            showVideoControls ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          {/* Progress Bar */}
+          <div className="mb-3">
             <div 
-              className="h-full bg-gold rounded-full transition-all duration-150 relative"
-              style={{ width: `${progress}%` }}
+              className="w-full h-2 bg-white/20 rounded-full cursor-pointer relative overflow-hidden"
+              onClick={handleProgressClick}
             >
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-gold rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              <div 
+                className="h-full bg-gold rounded-full transition-all duration-150 relative"
+                style={{ width: `${progress}%` }}
+              >
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-gold rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Controls Row */}
-        <div className="flex items-center justify-between text-white">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={togglePlay}
-              className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
-            >
-              {isPlaying ? (
-                <Pause className="w-5 h-5" />
-              ) : (
-                <Play className="w-5 h-5 ml-0.5" />
+          {/* Controls Row */}
+          <div className="flex items-center justify-between text-white">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={togglePlay}
+                className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
+              >
+                {isPlaying ? (
+                  <Pause className="w-5 h-5" />
+                ) : (
+                  <Play className="w-5 h-5 ml-0.5" />
+                )}
+              </button>
+              
+              <button
+                onClick={toggleMute}
+                className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors duration-200"
+              >
+                {isMuted ? (
+                  <VolumeX className="w-4 h-4" />
+                ) : (
+                  <Volume2 className="w-4 h-4" />
+                )}
+              </button>
+              
+              {!isPlaying && (
+                <span className="text-sm font-medium">
+                  {formatTime(currentTime)} / {formatTime(duration)}
+                </span>
               )}
-            </button>
-            
+            </div>
+
             <button
-              onClick={toggleMute}
+              onClick={toggleFullscreen}
               className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors duration-200"
             >
-              {isMuted ? (
-                <VolumeX className="w-4 h-4" />
-              ) : (
-                <Volume2 className="w-4 h-4" />
-              )}
+              <Maximize className="w-4 h-4" />
             </button>
-            
-            {!isPlaying && (
-              <span className="text-sm font-medium">
-                {formatTime(currentTime)} / {formatTime(duration)}
-              </span>
-            )}
           </div>
-
-          <button
-            onClick={toggleFullscreen}
-            className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors duration-200"
-          >
-            <Maximize className="w-4 h-4" />
-          </button>
         </div>
-      </div>
+      )}
     </div>
   );
 };

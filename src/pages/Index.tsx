@@ -170,6 +170,7 @@ const Index = () => {
               <div className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl bg-card/10 backdrop-blur-sm border border-gold/20 hover-lift max-w-5xl mx-auto">
                 <CustomVideoPlayer
                   src="/video-novo-atualizado.mp4"
+                  showControls={false}
                   onPlay={() => {
                     if (!hasPlayedVideo) {
                       localStorage.setItem('hero-video-played', 'true');
@@ -448,6 +449,7 @@ const Index = () => {
                 <CustomVideoPlayer
                   src="/video-biblioteca-anuncios.mp4"
                   playOnIntersect={true}
+                  showControls={false}
                 />
               </div>
             </div>
