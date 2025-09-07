@@ -1,14 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, Maximize } from 'lucide-react';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 interface CustomVideoPlayerProps {
   src: string;
   className?: string;
   onPlay?: () => void;
   autoPlay?: boolean;
+  playOnIntersect?: boolean;
 }
 
-const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false }: CustomVideoPlayerProps) => {
+const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, playOnIntersect = false }: CustomVideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -20,6 +22,10 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false }: Cu
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const controlsTimeoutRef = useRef<NodeJS.Timeout>();
+  const { ref: intersectionRef, isIntersecting } = useIntersectionObserver({
+    threshold: 0.6,
+    triggerOnce: true,
+  });
 
   useEffect(() => {
     const video = videoRef.current;
@@ -59,6 +65,32 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false }: Cu
       video.removeEventListener('loadstart', handleLoadStart);
     };
   }, [src]);
+
+  // Auto-play when intersection is detected
+  useEffect(() => {
+    if (playOnIntersect && isIntersecting && !isPlaying && videoRef.current) {
+      const playVideo = async () => {
+        try {
+          // Pause all other media
+          const allMedia = document.querySelectorAll('audio, video');
+          allMedia.forEach(media => {
+            const mediaElement = media as HTMLMediaElement;
+            if (mediaElement !== videoRef.current && !mediaElement.paused) {
+              mediaElement.pause();
+            }
+          });
+          
+          await videoRef.current!.play();
+          setIsPlaying(true);
+          onPlay?.();
+        } catch (error) {
+          console.error('Auto-play failed:', error);
+        }
+      };
+      
+      playVideo();
+    }
+  }, [playOnIntersect, isIntersecting, isPlaying, onPlay]);
 
   const togglePlay = async () => {
     const video = videoRef.current;
@@ -148,6 +180,7 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false }: Cu
 
   return (
     <div 
+      ref={intersectionRef}
       className={`relative group ${className}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => isPlaying && setShowControls(false)}
@@ -162,6 +195,8 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false }: Cu
         onClick={togglePlay}
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
+        onLoadStart={() => setIsLoading(true)}
+        onCanPlay={() => setIsLoading(false)}
         style={{ minHeight: '250px', maxHeight: '600px' }}
       />
       

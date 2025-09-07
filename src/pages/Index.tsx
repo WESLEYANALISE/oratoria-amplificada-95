@@ -85,8 +85,9 @@ const Index = () => {
       };
     }
   }, []);
+  
   const handlePurchase = () => {
-    console.log('Redirecionando para pagamento...');
+    window.open('https://pay.cakto.com.br/377wp2j_560310', '_blank');
   };
 
   const handleScrollToBooks = () => {
@@ -445,8 +446,8 @@ const Index = () => {
             <div className="mb-8 sm:mb-10">
               <div className="relative rounded-xl overflow-hidden shadow-2xl bg-card/10 backdrop-blur-sm border border-gold/20">
                 <CustomVideoPlayer
-                  src="/video-oratoria.mp4"
-                  autoPlay={true}
+                  src="/video-biblioteca-anuncios.mp4"
+                  playOnIntersect={true}
                 />
               </div>
             </div>
