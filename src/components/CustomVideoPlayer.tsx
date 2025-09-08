@@ -9,9 +9,11 @@ interface CustomVideoPlayerProps {
   autoPlay?: boolean;
   playOnIntersect?: boolean;
   showControls?: boolean;
+  playOnceOnly?: boolean;
+  pauseTrigger?: number;
 }
 
-const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, playOnIntersect = false, showControls = true }: CustomVideoPlayerProps) => {
+const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, playOnIntersect = false, showControls = true, playOnceOnly = false, pauseTrigger }: CustomVideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -20,6 +22,7 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, play
   const [isMuted, setIsMuted] = useState(false);
   const [showVideoControls, setShowVideoControls] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasAutoPlayed, setHasAutoPlayed] = useState(false);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const controlsTimeoutRef = useRef<NodeJS.Timeout>();
@@ -67,9 +70,12 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, play
     };
   }, [src]);
 
-  // Auto-play when intersection is detected
+  // Auto-play when intersection is detected (only once if playOnceOnly is true)
   useEffect(() => {
     if (playOnIntersect && isIntersecting && !isPlaying && videoRef.current) {
+      // Check if we should skip auto-play due to playOnceOnly restriction
+      if (playOnceOnly && hasAutoPlayed) return;
+      
       const playVideo = async () => {
         try {
           // Pause all other media
@@ -83,6 +89,7 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, play
           
           await videoRef.current!.play();
           setIsPlaying(true);
+          setHasAutoPlayed(true);
           onPlay?.();
         } catch (error) {
           console.error('Auto-play failed:', error);
@@ -91,7 +98,15 @@ const CustomVideoPlayer = ({ src, className = "", onPlay, autoPlay = false, play
       
       playVideo();
     }
-  }, [playOnIntersect, isIntersecting, isPlaying, onPlay]);
+  }, [playOnIntersect, isIntersecting, isPlaying, onPlay, playOnceOnly, hasAutoPlayed]);
+
+  // Listen for external pause requests
+  useEffect(() => {
+    if (pauseTrigger && pauseTrigger > 0 && isPlaying && videoRef.current) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [pauseTrigger, isPlaying]);
 
   const togglePlay = async () => {
     const video = videoRef.current;
