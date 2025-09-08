@@ -192,6 +192,19 @@ const Index = () => {
               <InfiniteBookCarousel books={books} />
             </div>
             
+            {/* Impact Quote */}
+            <div className="mb-8 sm:mb-12 animate-fade-in text-center px-4">
+              <div className="bg-gradient-to-r from-gold/10 via-gold/20 to-gold/10 rounded-2xl p-6 sm:p-8 border border-gold/30 shadow-2xl shadow-gold/20 max-w-4xl mx-auto">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-black text-gold mb-2 leading-tight">
+                  "Mais de 70% das oportunidades de crescimento profissional
+                </div>
+                <div className="text-xl sm:text-2xl md:text-3xl font-black text-gold leading-tight">
+                  estão ligadas a uma boa comunicação."
+                </div>
+                <div className="w-16 h-1 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-4"></div>
+              </div>
+            </div>
+            
             {/* Stats */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-12 mb-8 sm:mb-12 animate-slide-in-bottom px-4">
               {[{
