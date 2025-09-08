@@ -165,7 +165,7 @@ const Index = () => {
               Transforme <strong className="text-gold">Qualquer Palavra</strong> em Uma Arma de Influência
             </p>
             
-            <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto animate-fade-in-up [animation-delay:0.4s] px-4">Pare de ser ignorado. Pare de perder oportunidades por não saber se comunicar. Estes 10 livros vão transformar você no líder que todos escutam e respeitam.</p>
+            <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto animate-fade-in-up [animation-delay:0.4s] px-4">Pare de ser ignorado. Pare de perder oportunidades por não saber se comunicar.</p>
             
             {/* Video Section */}
             <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-8 sm:mb-12 animate-fade-in-up [animation-delay:0.6s] px-2 sm:px-4">
