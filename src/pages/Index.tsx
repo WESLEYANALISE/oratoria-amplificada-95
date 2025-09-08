@@ -157,11 +157,7 @@ const Index = () => {
             
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 sm:mb-8 leading-tight animate-fade-in-up">
               <span className="bg-gradient-to-r from-foreground via-gold to-primary-glow bg-clip-text text-transparent">
-                Domine a Arte da
-              </span>
-              <br />
-              <span className="text-gold animate-parallax-float [animation-delay:0.5s]">
-                Persuasão Total
+                Você não precisa deixar o medo de falar em público roubar suas chances de crescer.
               </span>
             </h1>
             
